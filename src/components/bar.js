@@ -13,8 +13,9 @@ export default function Bar(props) {
         let xAxis = g => g.attr("transform", `translate(0, ${height - margin.bottom})`).call(d3.axisBottom(x).tickFormat(i => contents[i].condition).tickSizeOuter(0))
         let yAxis = g => g.attr("transform", `translate(${margin.left},0)`).call(d3.axisLeft(y).ticks(null, contents.format)).call(g => g.select(".domain").remove())
                 .call(g => g.append("text").attr("x", -margin.left).attr("y", 10).attr("fill", "currentColor").attr("text-anchor", "start").text(contents.y))
-        let svg = d3.create('svg').attr("viewbox", [0, 0, width, height]);
-        svg.append('g').attr("fill", "#23967F").selectAll("rect").data(contents).join("rect").attr("x", (d, i) => x(i)).attr("y", d => y(d.number))
+        let svg = d3.create('svg').attr("viewbox", [0, 0, width, height]).attr('class', 'h-72 w-72 group');
+        svg.append('style').text("rect:hover { cursor: pointer; fill: rgb(92, 44, 99); }  ");
+        svg.append('g').attr('fill', "#55a8e8").selectAll("rect").data(contents).join("rect").attr("x", (d, i) => x(i)).attr("y", d => y(d.number))
             .attr("height", d => y(0) - y(d.number)).attr("width", x.bandwidth());
         svg.append("g").call(xAxis);
         svg.append("g").call(yAxis);
@@ -28,9 +29,9 @@ export default function Bar(props) {
     return (
         <div className="relative flex flex-col items-center justify-center">
             <div id={props.id} className="flex justify-center" dangerouslySetInnerHTML={createBars()} >
-
+                
             </div>
-            <div className="absolute left-4 top-0">
+            <div className="absolute left-9 top-0">
                 <h4 className="font-semibold">{props.country}</h4>
             </div>
         </div>
