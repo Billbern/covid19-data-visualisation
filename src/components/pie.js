@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 export default function Pie(props) {
 
 
-    function createChart() {
+    function createPies() {
         const pallete = ['#DB93B0', '#F7BFB4', '#7DAF9C', '#23967F']
         let colors = d3.scaleOrdinal(pallete);
         let svg = d3.create('svg').attr("class", "h-72 w-72");
@@ -26,7 +26,7 @@ export default function Pie(props) {
 
     return (
         <div className="relative flex flex-col items-center justify-center">
-            <div id={props.id} className="flex justify-center" dangerouslySetInnerHTML={createChart()} >
+            <div id={props.id} className="flex justify-center" dangerouslySetInnerHTML={createPies()} >
                 
             </div>
             <div className="absolute left-18 bottom-0">

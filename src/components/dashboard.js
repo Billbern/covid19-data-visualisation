@@ -17,21 +17,21 @@ export default class Dashboard extends Component {
         super();
         this.state = {
             cases: {
-                "Benin": [{ condition: "Active", number: 0 }, { condition: "Confirmed", number: 0 }, { condition: "Deaths", number: 0 }, { condition: "Recovered", number: 0 }],
-                "Burkina Faso": [{ condition: "Active", number: 0 }, { condition: "Confirmed", number: 0 }, { condition: "Deaths", number: 0 }, { condition: "Recovered", number: 0 }],
-                "Cote d'Ivoire": [{ condition: "Active", number: 0 }, { condition: "Confirmed", number: 0 }, { condition: "Deaths", number: 0 }, { condition: "Recovered", number: 0 }],
-                "Gambia": [{ condition: "Active", number: 0 }, { condition: "Confirmed", number: 0 }, { condition: "Deaths", number: 0 }, { condition: "Recovered", number: 0 }],
-                "Ghana": [{ condition: "Active", number: 0 }, { condition: "Confirmed", number: 0 }, { condition: "Deaths", number: 0 }, { condition: "Recovered", number: 0 }],
-                "Guinea": [{ condition: "Active", number: 0 }, { condition: "Confirmed", number: 0 }, { condition: "Deaths", number: 0 }, { condition: "Recovered", number: 0 }],
-                "Guinea-Bissau": [{ condition: "Active", number: 0 }, { condition: "Confirmed", number: 0 }, { condition: "Deaths", number: 0 }, { condition: "Recovered", number: 0 }],
-                "Liberia": [{ condition: "Active", number: 0 }, { condition: "Confirmed", number: 0 }, { condition: "Deaths", number: 0 }, { condition: "Recovered", number: 0 }],
-                "Mali": [{ condition: "Active", number: 0 }, { condition: "Confirmed", number: 0 }, { condition: "Deaths", number: 0 }, { condition: "Recovered", number: 0 }],
-                "Mauritania": [{ condition: "Active", number: 0 }, { condition: "Confirmed", number: 0 }, { condition: "Deaths", number: 0 }, { condition: "Recovered", number: 0 }],
-                "Niger": [{ condition: "Active", number: 0 }, { condition: "Confirmed", number: 0 }, { condition: "Deaths", number: 0 }, { condition: "Recovered", number: 0 }],
-                "Nigeria": [{ condition: "Active", number: 0 }, { condition: "Confirmed", number: 0 }, { condition: "Deaths", number: 0 }, { condition: "Recovered", number: 0 }],
-                "Senegal": [{ condition: "Active", number: 0 }, { condition: "Confirmed", number: 0 }, { condition: "Deaths", number: 0 }, { condition: "Recovered", number: 0 }],
-                "Sierra Leone": [{ condition: "Active", number: 0 }, { condition: "Confirmed", number: 0 }, { condition: "Deaths", number: 0 }, { condition: "Recovered", number: 0 }],
-                "Togo": [{ condition: "Active", number: 0 }, { condition: "Confirmed", number: 0 }, { condition: "Deaths", number: 0 }, { condition: "Recovered", number: 0 }],
+                "Benin": [{ condition: "Active", number: 46 }, { condition: "Confirmed", number: 90 }, { condition: "Deaths", number: 2 }, { condition: "Recovered", number: 42 }],
+                "Burkina Faso": [{ condition: "Active", number: 73 }, { condition: "Confirmed", number: 652 }, { condition: "Deaths", number: 44 }, { condition: "Recovered", number: 535 }],
+                "Cote d'Ivoire": [{ condition: "Active", number: 725 }, { condition: "Confirmed", number: 1362 }, { condition: "Deaths", number: 15 }, { condition: "Recovered", number: 622 }],
+                "Gambia": [{ condition: "Active", number: 7 }, { condition: "Confirmed", number: 17 }, { condition: "Deaths", number: 1 }, { condition: "Recovered", number: 9 }],
+                "Ghana": [{ condition: "Active", number: 1922 }, { condition: "Confirmed", number: 2169 }, { condition: "Deaths", number: 18 }, { condition: "Recovered", number: 229 }],
+                "Guinea": [{ condition: "Active", number: 1174 }, { condition: "Confirmed", number: 1586 }, { condition: "Deaths", number: 7 }, { condition: "Recovered", number: 405 }],
+                "Guinea-Bissau": [{ condition: "Active", number: 0 }, { condition: "Confirmed", number: 257 }, { condition: "Deaths", number: 1 }, { condition: "Recovered", number: 19 }],
+                "Liberia": [{ condition: "Active", number: 88 }, { condition: "Confirmed", number: 154 }, { condition: "Deaths", number: 18 }, { condition: "Recovered", number: 48 }],
+                "Mali": [{ condition: "Active", number: 312 }, { condition: "Confirmed", number: 544 }, { condition: "Deaths", number: 26 }, { condition: "Recovered", number: 206 }],
+                "Mauritania": [{ condition: "Active", number: 1 }, { condition: "Confirmed", number: 8 }, { condition: "Deaths", number: 1 }, { condition: "Recovered", number: 6 }],
+                "Niger": [{ condition: "Active", number: 194 }, { condition: "Confirmed", number: 736 }, { condition: "Deaths", number: 35 }, { condition: "Recovered", number: 507 }],
+                "Nigeria": [{ condition: "Active", number: 1952 }, { condition: "Confirmed", number: 2388 }, { condition: "Deaths", number: 85 }, { condition: "Recovered", number: 351 }],
+                "Senegal": [{ condition: "Active", number: 738 }, { condition: "Confirmed", number: 1115 }, { condition: "Deaths", number: 9 }, { condition: "Recovered", number: 368 }],
+                "Sierra Leone": [{ condition: "Active", number: 126 }, { condition: "Confirmed", number: 155 }, { condition: "Deaths", number: 8 }, { condition: "Recovered", number: 21 }],
+                "Togo": [{ condition: "Active", number: 48 }, { condition: "Confirmed", number: 123 }, { condition: "Deaths", number: 9 }, { condition: "Recovered", number: 66 }],
             }
         }
     }
@@ -63,7 +63,7 @@ export default class Dashboard extends Component {
                                 </div>
                                 <Switch>
                                     <Route path="/barcharts">
-                                        <BarCharts />
+                                        <BarCharts cases={ this.state.cases } />
                                     </Route>
                                     <Route path="/linegraphs">
                                         <LineGraphs />
