@@ -1,91 +1,89 @@
-import { Component } from "react";
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import moment from 'moment';
-import fetchData from "../utils/datafetcher";
-import Header from "./header";
-import SideBar from "./sidebar";
-import MapPlots from "./mapplot";
-import PieChart from "./piechart";
-import BarCharts from "./barcharts";
-import LineGraphs from "./linegraphs";
-import ScatterPlots from "./scatterplots";
-import StackedBarCharts from "./stackedbar";
+import { useCovidData } from '../hooks/useCovidData';
+import StatCards from './dashboard/StatCards';
+import DistributionChart from './dashboard/DistributionChart';
+import ComparisonChart from './dashboard/ComparisonChart';
+import { AlertCircle, Loader2, TrendingUp, PieChart as PieIcon } from 'lucide-react';
 
-export default class Dashboard extends Component {
+const Dashboard = () => {
+    const { global, countries, historical, isLoading, error } = useCovidData();
 
-    constructor() {
-        super();
-        this.state = {
-            cases: {
-                "Benin": [{ condition: "Active", number: 46 }, { condition: "Confirmed", number: 90 }, { condition: "Deaths", number: 2 }, { condition: "Recovered", number: 42 }],
-                "Burkina Faso": [{ condition: "Active", number: 73 }, { condition: "Confirmed", number: 652 }, { condition: "Deaths", number: 44 }, { condition: "Recovered", number: 535 }],
-                "Cote d'Ivoire": [{ condition: "Active", number: 725 }, { condition: "Confirmed", number: 1362 }, { condition: "Deaths", number: 15 }, { condition: "Recovered", number: 622 }],
-                "Gambia": [{ condition: "Active", number: 7 }, { condition: "Confirmed", number: 17 }, { condition: "Deaths", number: 1 }, { condition: "Recovered", number: 9 }],
-                "Ghana": [{ condition: "Active", number: 1922 }, { condition: "Confirmed", number: 2169 }, { condition: "Deaths", number: 18 }, { condition: "Recovered", number: 229 }],
-                "Guinea": [{ condition: "Active", number: 1174 }, { condition: "Confirmed", number: 1586 }, { condition: "Deaths", number: 7 }, { condition: "Recovered", number: 405 }],
-                "Guinea-Bissau": [{ condition: "Active", number: 0 }, { condition: "Confirmed", number: 257 }, { condition: "Deaths", number: 1 }, { condition: "Recovered", number: 19 }],
-                "Liberia": [{ condition: "Active", number: 88 }, { condition: "Confirmed", number: 154 }, { condition: "Deaths", number: 18 }, { condition: "Recovered", number: 48 }],
-                "Mali": [{ condition: "Active", number: 312 }, { condition: "Confirmed", number: 544 }, { condition: "Deaths", number: 26 }, { condition: "Recovered", number: 206 }],
-                "Mauritania": [{ condition: "Active", number: 1 }, { condition: "Confirmed", number: 8 }, { condition: "Deaths", number: 1 }, { condition: "Recovered", number: 6 }],
-                "Niger": [{ condition: "Active", number: 194 }, { condition: "Confirmed", number: 736 }, { condition: "Deaths", number: 35 }, { condition: "Recovered", number: 507 }],
-                "Nigeria": [{ condition: "Active", number: 1952 }, { condition: "Confirmed", number: 2388 }, { condition: "Deaths", number: 85 }, { condition: "Recovered", number: 351 }],
-                "Senegal": [{ condition: "Active", number: 738 }, { condition: "Confirmed", number: 1115 }, { condition: "Deaths", number: 9 }, { condition: "Recovered", number: 368 }],
-                "Sierra Leone": [{ condition: "Active", number: 126 }, { condition: "Confirmed", number: 155 }, { condition: "Deaths", number: 8 }, { condition: "Recovered", number: 21 }],
-                "Togo": [{ condition: "Active", number: 48 }, { condition: "Confirmed", number: 123 }, { condition: "Deaths", number: 9 }, { condition: "Recovered", number: 66 }],
-            }
-        }
-    }
-
-    componentDidMount() {
-        fetchData('', this.setState.bind(this));
-    }
-
-    handleChange(e){
-        e.preventDefault();
-        const searchDate = `${e.target.value.split('-')[1]}-${e.target.value.split('-')[2]}-${e.target.value.split('-')[0]}`;
-        fetchData(searchDate, this.setState.bind(this));
-    }
-
-    render() {
+    if (isLoading) {
         return (
-            <Router>
-                <div className="w-full h-full">
-                    <Header />
-                    <div className="h-sm">
-                        <div className="h-full grid grid-cols-12">
-                            <SideBar />
-                            <div className="col-span-10 overflow-auto">
-                                <div className=" flex items-center justify-center text-2xl font-semibold py-4">
-                                    <h1 className="mr-2">
-                                        <label htmlFor="date">Covid 19 Cases On</label>
-                                    </h1>
-                                    <input className="w-52" type="date" name="case" id="date" min={moment('2020/05/02').format('YYYY-MM-DD')} defaultValue={moment('2020/05/02').format('YYYY-MM-DD')} onChange={(e)=>{this.handleChange(e)}}/>
-                                </div>
-                                <Switch>
-                                    <Route path="/barcharts">
-                                        <BarCharts cases={ this.state.cases } />
-                                    </Route>
-                                    <Route path="/linegraphs">
-                                        <LineGraphs />
-                                    </Route>
-                                    <Route path="/stackedbarcharts">
-                                        <StackedBarCharts />
-                                    </Route>
-                                    <Route path="/scatterplots">
-                                        <ScatterPlots />
-                                    </Route>
-                                    <Route path="/mapplots">
-                                        <MapPlots />
-                                    </Route>
-                                    <Route path="/">
-                                        <PieChart cases={ this.state.cases }/>
-                                    </Route>
-                                </Switch>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </Router>
-        )
+            <div className="flex flex-col items-center justify-center h-64 gap-4">
+                <Loader2 className="w-10 h-10 text-red-600 animate-spin" />
+                <p className="text-gray-500 font-medium">Loading dashboard data...</p>
+            </div>
+        );
     }
-}
+
+    if (error) {
+        return (
+            <div className="bg-red-50 border border-red-200 p-6 rounded-2xl flex items-center gap-4 text-red-700">
+                <AlertCircle className="w-6 h-6" />
+                <div>
+                    <h4 className="font-bold">Error</h4>
+                    <p className="text-sm">{error}</p>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="space-y-6 animate-in fade-in duration-500">
+            <header className="mb-2">
+                <h2 className="text-2xl font-bold text-gray-900">Global Overview</h2>
+                <p className="text-gray-500">Real-time statistics and insights across the world.</p>
+            </header>
+
+            <StatCards globalData={global} />
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 min-h-[400px]">
+                    <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+                        <PieIcon className="w-5 h-5 text-red-600" />
+                        Status Distribution
+                    </h3>
+                    <DistributionChart data={global} />
+                </div>
+
+                <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 min-h-[400px]">
+                    <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+                        <TrendingUp className="w-5 h-5 text-red-600" />
+                        Top Impacted Countries
+                    </h3>
+                    <ComparisonChart countries={countries} />
+                </div>
+            </div>
+
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <h3 className="text-lg font-bold text-gray-900 mb-6">World Data Table</h3>
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left">
+                        <thead>
+                            <tr className="text-xs font-bold text-gray-400 uppercase tracking-wider border-b border-gray-100">
+                                <th className="pb-4 px-4">Country</th>
+                                <th className="pb-4 px-4 text-right">Confirmed</th>
+                                <th className="pb-4 px-4 text-right">Active</th>
+                                <th className="pb-4 px-4 text-right">Recovered</th>
+                                <th className="pb-4 px-4 text-right">Deaths</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-50">
+                            {countries.slice(0, 10).map((country) => (
+                                <tr key={country.country} className="hover:bg-gray-50 transition-colors">
+                                    <td className="py-4 px-4 font-semibold text-gray-700">{country.country}</td>
+                                    <td className="py-4 px-4 text-right font-medium">{country.cases.toLocaleString()}</td>
+                                    <td className="py-4 px-4 text-right text-amber-600">{country.active.toLocaleString()}</td>
+                                    <td className="py-4 px-4 text-right text-green-600">{country.recovered.toLocaleString()}</td>
+                                    <td className="py-4 px-4 text-right text-red-600">{country.deaths.toLocaleString()}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Dashboard;
